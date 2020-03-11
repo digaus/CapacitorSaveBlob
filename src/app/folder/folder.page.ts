@@ -30,7 +30,7 @@ export class FolderPage implements OnInit {
       showBackdrop: false,
     });
     console.time('WriteFile');
-    await this.fileService.writeFile('video', 'sample.mp4', blob, 3);
+    await this.fileService.writeFile('video', 'sample.mp4', blob, 6);
     console.timeEnd('WriteFile');
 
     loading.message = 'Reading file...',
