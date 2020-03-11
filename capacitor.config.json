@@ -1,0 +1,8 @@
+{
+  "appId": "com.digaus.blob",
+  "appName": "BlobHandling",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "www",
+  "cordova": {}
+}
