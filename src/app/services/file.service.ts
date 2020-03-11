@@ -134,4 +134,41 @@ export class FileService {
             reader.readAsDataURL(blob);
         });
     }
+
+    /*
+
+            //Chunking needs to be done first in native layer and send one by one
+            const oldVal: string = await this.convertToBase64(result.data as any);
+            let val: string = oldVal.split(',')[1];
+            const chunks: string[] = [];
+            while (val.length >= 1024) {
+                chunks.push(val.slice(0, 1024));
+                val = val.slice(1024);
+            }
+            chunks.push(val.slice(0, val.length));
+
+            // Creating blob from chunked file if we would be able to read it in parts
+            const blobs: Blob[] = [];
+            for (const chunk of chunks) {
+                blobs.push(this.convertToBlob(chunk));
+            }
+            const resultBlob: Blob = new Blob(blobs, {type: 'image/jpeg'});
+
+
+    */
+    private convertToBlob(base64: string, contentType: string = '', sliceSize: number = 1024): Blob {
+        const byteCharacters: string = atob(base64);
+        const byteArrays: Uint8Array[] = [];
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+          const slice: string = byteCharacters.slice(offset, offset + sliceSize);
+          const byteNumbers: number[] = new Array(slice.length);
+          for (let i = 0; i < slice.length; i++) {
+            byteNumbers[i] = slice.charCodeAt(i);
+          }
+          const byteArray: Uint8Array = new Uint8Array(byteNumbers);
+          byteArrays.push(byteArray);
+        }
+        const blob: Blob = new Blob(byteArrays, {type: contentType});
+        return blob;
+    }
 }
