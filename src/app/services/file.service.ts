@@ -102,7 +102,7 @@ export class FileService {
 
     private async convertToBase64Chunks(blob: Blob, size: number, chunk: (value: string, first?: boolean) => Promise<void>): Promise<void> {
         const chunkSize: number = 1024 * 1024 * size;
-        if (size % 6) {
+        if (chunkSize % 6) {
             throw {error: 'Chunksize must be a multiple of 6!'};
         } else {
             const blobSize: number = blob.size;
