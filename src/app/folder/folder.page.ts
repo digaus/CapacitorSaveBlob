@@ -29,6 +29,8 @@ export class FolderPage implements OnInit {
       message: 'Saving file...',
       showBackdrop: false,
     });
+
+    await loading.present();
     console.time('WriteFile');
     await this.fileService.writeFile('video', 'sample.mp4', blob, 6);
     console.timeEnd('WriteFile');
