@@ -33,7 +33,7 @@ export class FileService {
     }
     public async writeFile(folder: string, fileName: string, blob: Blob, chunkSize: number): Promise<void> {
         await this.initFolder(folder);
-        if (this.myPlatform.is('capacitor')) {
+        if (this.myPlatform.is('capacitor') || this.myPlatform.is('electron')) {
             await this.convertToBase64Chunks(blob, chunkSize, async (value: string, first: boolean): Promise<void> => {
                 if (first) {
                     await Filesystem.writeFile({
@@ -64,7 +64,7 @@ export class FileService {
             path: folder,
             directory: FilesystemDirectory.Data,
         }).catch((err: any) => { console.error(err); return null; });
-        if (this.myPlatform.is('capacitor')) {
+        if (this.myPlatform.is('capacitor') || this.myPlatform.is('electron')) {
             const fileSrc: string = Capacitor.convertFileSrc(directory.uri + '/' + fileName);
             const safeUrl: SafeResourceUrl = this.myDomSanitizer.bypassSecurityTrustResourceUrl(fileSrc);
             return { success: safeUrl, revoke: (): void => {
@@ -85,7 +85,7 @@ export class FileService {
             path: folder,
             directory: FilesystemDirectory.Data,
         }).catch((err: any) => { console.error(err); return null; });
-        if (this.myPlatform.is('capacitor')) {
+        if (this.myPlatform.is('capacitor') || this.myPlatform.is('electron')) {
             const fileSrc: string = Capacitor.convertFileSrc(   directory.uri + '/' + fileName);
             const blob: Blob = await fetch(fileSrc).then((res: Response) => res.blob());
             return blob;
